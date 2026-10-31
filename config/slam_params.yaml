@@ -1,0 +1,12 @@
+slam_toolbox:
+  use_sim_time: true
+  mode: "online_async"
+  map_frame: "map"
+  base_frame: "base_link"
+  odom_frame: "odom"
+  laser_scan_topic: "scan"
+  max_laser_range: 3.5
+  min_laser_range: 0.1
+  registration:
+    enabled: true
+

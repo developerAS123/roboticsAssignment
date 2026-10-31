@@ -1,0 +1,44 @@
+amcl:
+  ros__parameters:
+    use_sim_time: true
+    map_topic: map
+    yaml_filename: /workspace/maps/office_map.yaml
+    scan_topic: scan
+    min_particles: 100
+    max_particles: 1000
+    update_min_d: 0.2
+    update_min_a: 0.2
+    resample_interval: 1
+    tf_broadcast: true
+    robot_model_type: "differential"
+
+controller_server:
+  ros__parameters:
+    use_sim_time: true
+    controller_frequency: 20.0
+    min_speed_xy: 0.05
+    max_speed_xy: 0.2
+    min_speed_theta: 0.05
+    max_speed_theta: 1.0
+    trajectory_generator: "dwb"
+    # choose a simple controller
+
+planner_server:
+  ros__parameters:
+    use_sim_time: true
+    planner_plugins: ['GridBased']
+    GridBased:
+      plugin: "nav2_smac_planner/SmacPlanner2D"
+      tolerance: 0.5
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: true
+    default_bt_xml_filename: "$(find nav2_bt_navigator)/behavior_trees/navigate_w_replanning_and_recovery.xml"
+
+lifecycle_manager_navigation:
+  ros__parameters:
+    use_sim_time: true
+    autostart: true
+    node_names: ['map_server','amcl','planner_server','controller_server','bt_navigator','behavior_server','recoveries_server']
+

@@ -1,0 +1,25 @@
+# Layered Containerfile for TurtleBot3 Simulation & Nav2 on Gazebo Harmonic
+FROM localhost/intern-robotics:gz-harmonic
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install TurtleBot3 simulation and Navigation2 packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-jazzy-turtlebot3-gazebo \
+    ros-jazzy-turtlebot3-description \
+    ros-jazzy-turtlebot3-msgs \
+    ros-jazzy-turtlebot3-teleop \
+    ros-jazzy-navigation2 \
+    ros-jazzy-nav2-bringup \
+    ros-jazzy-slam-toolbox \
+    python3-transforms3d \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set standard TurtleBot3 environment variables
+ENV TURTLEBOT3_MODEL=burger
+ENV GZ_SIM_RESOURCE_PATH=/opt/ros/jazzy/share/turtlebot3_gazebo/models:/opt/ros/jazzy/share/turtlebot3_description/models
+
+WORKDIR /workspace
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["/bin/bash"]
